@@ -1,0 +1,9 @@
+paul@mccartney.org;The Beatles,The Quarrymen,Wings
+john@lennon.com;The Beatles,The Quarrymen,Plastic Ono Band
+george@harrison.org;The Beatles,Traveling Wilburys
+ringo@starr.org;The Beatles
+stu@sutcliffe.org;The Quarrymen
+linda@mccartney.org;Wings
+yoko@ono.org;Plastic Ono Band
+tom@petty.org;Traveling Wilburys
+roy@orbison.org;Traveling Wilburys
