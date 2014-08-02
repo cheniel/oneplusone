@@ -23,7 +23,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class PairingGenerator {	
+public class PairingDriver {	
 	private static final String DB4OFILENAME = "organizations.oneplusoneDB";
 	private static ObjectContainer db; // db4o database
 	private static Scanner user_input; 
