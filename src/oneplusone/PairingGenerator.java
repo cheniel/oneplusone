@@ -26,8 +26,8 @@ import java.util.Scanner;
 
 public class PairingGenerator {	
 	private static final String DB4OFILENAME = "organizations.oneplusoneDB";
-	private static ObjectContainer db; // contains objects from database
-	private static Scanner user_input; // used for user input
+	private static ObjectContainer db; // db4o database
+	private static Scanner user_input; 
 
 	/**
 	 * Displays all of the possible commands to the console
@@ -53,13 +53,12 @@ public class PairingGenerator {
 		System.out.println("\t\trmt\t\tremove member from team"); 
 		System.out.println("\t\trm\t\tremove member from all teams"); 
 		System.out.println("\t\trt\t\tremove team (keep members)"); 
-		System.out.println("\t\tdo\t\tdelete organization");
+		System.out.println("\t\tdorg\t\tdelete organization");
 
 		System.out.println("\tOTHER");
 		System.out.println("\t\t?\t\tdisplay commands");
 		System.out.println("\t\tq\t\tquit");
 		System.out.println("\t---------------------------------------------------");
-
 	}
 	
 	/**
@@ -81,6 +80,7 @@ public class PairingGenerator {
 	 * @param organization to update in the database.
 	 */
 	private static void saveDatabase(Organization org) {
+		if (org == null) { return; }
 		System.out.println("Saving " + org.getName() + "...");
 		db.store(org);
 		System.out.println("Saved.");
@@ -98,7 +98,7 @@ public class PairingGenerator {
 		Organization selected = null;
 		
 		do {
-			System.out.print("\nType in organization name (q to exit, l to list):");
+			System.out.print("\nType in organization name (q to exit, l to list): ");
 			command = user_input.nextLine();
 
 			switch (command) {
@@ -115,10 +115,9 @@ public class PairingGenerator {
 				ObjectSet<Object> results 
 					= db.queryByExample(new Organization(command));
 				
-				if (results.hasNext() == true) {
-					selected = (Organization) results.get(0); // return selected org
-					valid = true;
-					
+				if (results.hasNext() == true) { // if organization exists
+					selected = (Organization) results.get(0); // select org to return
+					valid = true; // break out of loop
 				} else {
 					System.out.println("Organization not found."); // reprompt
 				}
@@ -136,14 +135,13 @@ public class PairingGenerator {
 	 * @return selected team, null if user cancels
 	 */
 	private static Team getTeamFromUser(Organization org) {
-		if (org == null) return null;
-		
+		if (org == null) { return null; }
 		boolean valid = false;
 		String command;
 		Team selected = null;
 		
 		do {
-			System.out.print("\nType in team name (q to exit, l to list):");
+			System.out.print("\nType in team name (q to exit, l to list): ");
 			command = user_input.nextLine();
 
 			switch (command) {
@@ -157,12 +155,12 @@ public class PairingGenerator {
 				break;
 								
 			default: 		
+				// return team if it exists, null otherwise
 				if (org.hasTeam(command)) {
-					selected = org.getTeam(command);
-					valid = true;
-					
+					selected = org.getTeam(command); // select team to return
+					valid = true; // break out of loop
 				} else {
-					System.out.println("Team not found."); 
+					System.out.println("Team not found.");  // reprompt
 				}
 				break;
 			}
@@ -178,14 +176,14 @@ public class PairingGenerator {
 	 * @return selected member, null if user cancels
 	 */
 	private static Person getMemberFromUser(Organization org) {
-		if (org == null) return null;
+		if (org == null) { return null; }
 		
 		boolean valid = false;
 		String command;
 		Person selected = null;
 		
 		do {
-			System.out.print("\nType in member email (q to exit, l to list):");
+			System.out.print("\nType in member email (q to exit, l to list): ");
 			command = user_input.nextLine();
 
 			switch (command) {
@@ -199,12 +197,11 @@ public class PairingGenerator {
 				break;
 								
 			default: 		
-				if (org.hasMember(command)) {
-					selected = org.getMember(command);
-					valid = true;
-					
+				if (org.hasMember(command)) { 
+					selected = org.getMember(command); // select member to return
+					valid = true; // break out of loop
 				} else {
-					System.out.println("Member not found.");
+					System.out.println("Member not found."); // reprompt
 				}
 				break;
 			}
@@ -221,14 +218,14 @@ public class PairingGenerator {
 	 * @return member that the user picked, null if cancelled.
 	 */
 	private static Person getMemberFromUser(Team team) {
-		if (team == null) return null;
+		if (team == null) { return null; }
 		
 		boolean valid = false;
 		String command;
 		Person selected = null;
 		
 		do {
-			System.out.print("\nType in member email (q to exit, l to list):");
+			System.out.print("\nType in member email (q to exit, l to list): ");
 			command = user_input.nextLine();
 
 			switch (command) {
@@ -243,11 +240,10 @@ public class PairingGenerator {
 								
 			default: 		
 				if (team.hasMember(command)) {
-					selected = team.getMember(command);
-					valid = true;
-					
+					selected = team.getMember(command); // get member of team
+					valid = true; // break out of loop
 				} else {
-					System.out.println("Member not found.");
+					System.out.println("Member not found."); // reprompt
 				}
 				break;
 			}
@@ -269,7 +265,7 @@ public class PairingGenerator {
 	 * @param organization to add member-team pair to.
 	 */
 	private static void addMTfromUser(Organization org) {
-		if (org == null) return;
+		if (org == null) { return; }
 			
 		// get team
 		System.out.print("Type in the name of the team: ");
@@ -284,9 +280,9 @@ public class PairingGenerator {
 		
 		// ask to force if failed
 		if (!success) {
-			System.out.print("Force add? (y/n)");
+			System.out.print("Force add? (y/n): ");
 			String force = user_input.nextLine();
-			if (force.equals("y")) org.addMemberToTeam(member, team, true);
+			if (force.equals("y")) { org.addMemberToTeam(member, team, true); }
 		}
 		
 		saveDatabase(org);
@@ -299,15 +295,15 @@ public class PairingGenerator {
 	 * @param organization to remove a member from a team from.
 	 */
 	private static void removeMemberFromTeam(Organization org) {
-		if (org == null) return;
+		if (org == null) { return; }
 			
 		// get team
 		Team team = getTeamFromUser(org);
-		if (team == null) return;
+		if (team == null) { return; }
 		
 		// get member
 		Person member = getMemberFromUser(team);
-		if (member == null) return;
+		if (member == null) { return; }
 		
 		// remove member from team
 		team.removeMember(member);
@@ -322,13 +318,13 @@ public class PairingGenerator {
 	 * @param organization to remove member from.
 	 */
 	private static void removeMember(Organization org) {
-		if (org == null) return;
+		if (org == null) { return; }
 		
 		Person member = getMemberFromUser(org);
-		if (member == null) return;
+		if (member == null) { return; }
 		
 		// remove member from organization
-		org.removeMember(member.getEmail());
+		org.removeMember(member.getName());
 		
 		saveDatabase(org);
 	}
@@ -340,11 +336,11 @@ public class PairingGenerator {
 	 * @param organization to remove team from.
 	 */
 	private static void removeTeam(Organization org) {
-		if (org == null) return;
+		if (org == null) { return; }
 		
 		// have user select a team
 		Team team = getTeamFromUser(org);
-		if (team == null) return;
+		if (team == null) { return; }
 		
 		// remove team from organization
 		org.removeTeam(team.getName());
@@ -429,7 +425,8 @@ public class PairingGenerator {
 		        }
 		    }				
 		    saveDatabase(org);
-		 
+		    System.out.println("\n" + org);
+		    
 	    } else {
 	    	System.out.println("The organization already exists. Halting.");
 	    }
@@ -437,7 +434,7 @@ public class PairingGenerator {
 		} catch (FileNotFoundException e) {
 		  System.out.println("File not found.");
 		} catch (IOException e) {
-			System.out.println("There was an error reading the file.");
+			System.err.println("There was an error reading the file.");
 		} finally {
 		    try {
 		    	if (reader != null) {
@@ -488,8 +485,8 @@ public class PairingGenerator {
 					selected = getOrganizationFromUser();
 					if (selected != null) {
 						System.out.println(selected.getPairings());
+						saveDatabase(selected); // save matchups
 					}
-					saveDatabase(selected); // save matchups
 					break;
 				
 				// add member to team
@@ -538,7 +535,7 @@ public class PairingGenerator {
 					break;
 				
 				// delete organization
-				case "do":
+				case "dorg":
 					selected = getOrganizationFromUser();
 					if (selected != null) {
 						db.delete(selected);

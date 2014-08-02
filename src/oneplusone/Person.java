@@ -11,21 +11,25 @@
 
 package oneplusone;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Person {
-	private static final boolean TEST = true;
+	private static final boolean TEST = false;
 	private String email;
 	private HashMap<String, Team> teams;
 	private HashMap<String, Teammate> teammates;
-	private Teammate previousMatch;
+	private HashSet<Person> previousMatch;
+	private int cycleCount;
 	
 	public Person(String memberEmail) {
 		email = memberEmail;
 		teams = new HashMap<String, Team>();
 		teammates = new HashMap<String, Teammate>();
-		previousMatch = null;
+		previousMatch = new HashSet<Person>();
+		cycleCount = 0;
 	}
 	
 	/**
@@ -36,22 +40,22 @@ public class Person {
 	 */
 	public void addTeammate(Person teammate) {
 		if (teammate == null) {
-			System.out.println("addTeammate: teammate null");
+			System.err.println("addTeammate: teammate null");
 			return;
 		}
 		
-		if (!teammates.containsKey(teammate.getEmail())) {
+		if (!teammates.containsKey(teammate.getName())) {
 			teammates.put(teammate.email, new Teammate(teammate));
 			
 			if (TEST) {
 				System.out.println("\tMade "+teammate.email+" "+email+ "'s teammate");
 			}
 		} else {
-			teammates.get(teammate.getEmail()).links++;
+			teammates.get(teammate.getName()).links++;
 			
 			if (TEST) {
 				System.out.println("\t"+email+" shares "
-							+teammates.get(teammate.getEmail()).links+" teams with "
+							+teammates.get(teammate.getName()).links+" teams with "
 							+teammate.email);
 			}
 		}
@@ -78,7 +82,7 @@ public class Person {
 	 */
 	public void removeTeammate(Person teammate) {
 		if (teammates == null) {
-			System.out.println("removeTeammate: Received null teammate.");
+			System.err.println("removeTeammate: Received null teammate.");
 			return;
 		}
 		
@@ -124,41 +128,74 @@ public class Person {
 		return teams.keySet();
 	}
 	
-	public String getEmail() {
+	public String getName() {
 		return email;
 	}
 	
 	public boolean equals(Object other) {
-		return email.equals(((Person) other).getEmail());
+		return email.equals(((Person) other).getName());
 	}
 	
 	public String toString() {
 		return email;
 	}
 	
+	/**
+	 * adds
+	 * @param person
+	 */
 	public void matchTeammate(Person person) {
 		if (person == null) {
-			System.out.println("matchTeammate: person is null"); 
+			System.err.println("matchTeammate: person is null"); 
 			return;
 		}
 		
 		if (!teammates.containsKey(person.email)) {
-			System.out.println("matchTeammate: person is not a teammate!");
-		} else {
-			teammates.get(person.email).matched = true;
-		}
+			System.err.println("matchTeammate: person is not a teammate!");
+		} 
 	}
 	
 	public void unmatchTeammate(Person person) {
 		if (person == null) {
-			System.out.println("unmatchTeammate: person is null"); 
+			System.err.println("unmatchTeammate: person is null"); 
 			return;
 		}
 		
 		if (!teammates.containsKey(person.email)) {
-			System.out.println("unmatchTeammate: person is not a teammate!");
-		} else {
-			teammates.get(person.email).matched = false;
+			System.err.println("unmatchTeammate: person is not a teammate!");
+		} 
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean cycleFull() {
+		return cycleCount / 2 >= teammates.size();
+	}
+	
+	/**
+	 * 
+	 */
+	public void resetCycle() {
+		cycleCount = 0;
+		for (Teammate tm : teammates.values()) {
+			tm.matched = false;
+		}
+	}
+	
+	public boolean previouslyMatchedWith(Person person) {
+		return previousMatch.contains(person);
+	}
+	
+	public ArrayList<Teammate> getTeammates() {
+		return new ArrayList<Teammate>(teammates.values());
+	}
+
+	public void setPreviousMatchups(HashSet<Person> matchups) {
+		previousMatch = matchups;
+		
+		for (Person tm : matchups) {
+			teammates.get(tm.getName()).matched = true;
 		}
 	}
 	
@@ -174,9 +211,13 @@ public class Person {
 		private int links;
 		
 		public Teammate(Person teammate) {
-			person = person;
+			person = teammate;
 			matched = false;
 			links = 1;
+		}
+		
+		public boolean matchedInCycle() {
+			return matched;
 		}
 	}
 

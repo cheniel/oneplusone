@@ -13,29 +13,28 @@
 package oneplusone;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
 public class Organization {
+	private static final boolean TEST = false;
 	private String name;
 	private HashMap<String, Person> people;
 	private HashMap<String, Team> teams;
 	
 	public Organization(String organizationName) {
 		name = organizationName;
-		people = new HashMap<String, Person>(); //
+		people = new HashMap<String, Person>(); 
 		teams = new HashMap<String, Team>();
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Get pairings for 1+1 within an organization
+	 * @return completed pairing assignment.
 	 */
 	public PairingAssignment getPairings() {
 		WeightedCSP csp = new WeightedCSP(new ArrayList<Person>(people.values()));
-		
-		return csp.solve();
+		return csp.solve();		
 	}
 	
 	public String getName() {
@@ -61,14 +60,13 @@ public class Organization {
 		
 		// if both exist or if the operation is forced, add member to team
 		if ((memberExists && teamExists) || force ) {
-			
 			Person member;
 			Team team;
 			
 			if (!memberExists) {
 				member = new Person(memberEmail);
 				people.put(memberEmail, member);
-				System.out.println("Added new member: " + memberEmail);
+				if (TEST) System.out.println("Added new member: " + memberEmail);
 				
 			} else {
 				member = people.get(memberEmail);
@@ -77,13 +75,13 @@ public class Organization {
 			if (!teamExists) {
 				team = new Team(teamName);
 				teams.put(teamName, team);
-				System.out.println("Created new team: " + teamName);
+				if (TEST) System.out.println("Created new team: " + teamName);
 				
 			} else {
 				team = teams.get(teamName);
 			}
 			
-			System.out.println("Adding " + memberEmail + " to " + teamName);
+			if (TEST) System.out.println("Adding " + memberEmail + " to " + teamName);
 			team.addMember(member);
 			
 			return true;
@@ -161,7 +159,7 @@ public class Organization {
 	 */
 	public void removeMember(String memberEmail) {		
 		Person member = people.get(memberEmail);
-		if (member == null) return;
+		if (member == null) { return; }
 		
 		// remove from all teams
 		for (String team : member.teams()) {
@@ -180,7 +178,7 @@ public class Organization {
 	 */
 	public void removeTeam(String teamName) {
 		Team team = teams.get(teamName);
-		if (team == null) return; 
+		if (team == null) { return; }
 		
 		// remove team from members of team
 		for (String member : team.getMembers()) {

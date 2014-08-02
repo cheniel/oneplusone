@@ -50,7 +50,7 @@ public class Team {
 	public boolean addMember(Person member) {		
 		if (member != null) {
 			
-			if (!members.containsKey(member.getEmail())) {
+			if (!members.containsKey(member.getName())) {
 				
 				// make member teammate of other members
 				// make existing members teammate of member
@@ -63,16 +63,16 @@ public class Team {
 				member.addTeam(this);
 				
 				// add member to this team's member list
-				members.put(member.getEmail(), member);	
+				members.put(member.getName(), member);	
 				
 			} else {
-				System.out.println(member.getEmail() + " is already in " + name);
+				System.out.println(member.getName() + " is already in " + name);
 			}
 
 			return true;
 			
 		} else {
-			System.out.println("Team.addMember() failed!");
+			System.err.println("Team.addMember() failed!");
 			return false;
 		}
 	}
@@ -84,7 +84,7 @@ public class Team {
 	public void removeMember(Person member) {
 		
 		// remove member from members
-		members.remove(member.getEmail());
+		members.remove(member.getName());
 		
 		// loop through remaining teammates
 		for (Person remainingTeammate : members.values()) {
