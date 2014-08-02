@@ -141,32 +141,6 @@ public class Person {
 	}
 	
 	/**
-	 * adds
-	 * @param person
-	 */
-	public void matchTeammate(Person person) {
-		if (person == null) {
-			System.err.println("matchTeammate: person is null"); 
-			return;
-		}
-		
-		if (!teammates.containsKey(person.email)) {
-			System.err.println("matchTeammate: person is not a teammate!");
-		} 
-	}
-	
-	public void unmatchTeammate(Person person) {
-		if (person == null) {
-			System.err.println("unmatchTeammate: person is null"); 
-			return;
-		}
-		
-		if (!teammates.containsKey(person.email)) {
-			System.err.println("unmatchTeammate: person is not a teammate!");
-		} 
-	}
-	
-	/**
 	 * 
 	 */
 	public boolean cycleFull() {
@@ -196,6 +170,7 @@ public class Person {
 		
 		for (Person tm : matchups) {
 			teammates.get(tm.getName()).matched = true;
+			cycleCount++;
 		}
 	}
 	

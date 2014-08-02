@@ -16,7 +16,6 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.ta.TransparentActivationSupport;
-import com.db4o.ta.TransparentPersistenceSupport;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
