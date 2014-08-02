@@ -5,11 +5,15 @@ Command-line program which generates 1+1 pairings within an organization that is
 
 ## Installation
 
-## Generating pairs
+## How to Use
 
-## Managing the database
+### Generating pairs
 
-## About the code
+### Managing the database
+
+## Methodology
+
+### Pair Generation
 
 ### Technologies
 
@@ -17,4 +21,4 @@ Command-line program which generates 1+1 pairings within an organization that is
 
 ### Algorithm
 
-#### Cost determination (priorities, and flexibility)
+### Testing

@@ -18,14 +18,14 @@ import java.util.Set;
 
 public class Person {
 	private static final boolean TEST = false;
-	private String email;
+	private String id;
 	private HashMap<String, Team> teams;
 	private HashMap<String, Teammate> teammates;
 	private HashSet<Person> previousMatch;
 	private int cycleCount;
 	
 	public Person(String memberEmail) {
-		email = memberEmail;
+		id = memberEmail;
 		teams = new HashMap<String, Team>();
 		teammates = new HashMap<String, Teammate>();
 		previousMatch = new HashSet<Person>();
@@ -45,18 +45,18 @@ public class Person {
 		}
 		
 		if (!teammates.containsKey(teammate.getName())) {
-			teammates.put(teammate.email, new Teammate(teammate));
+			teammates.put(teammate.id, new Teammate(teammate));
 			
 			if (TEST) {
-				System.out.println("\tMade "+teammate.email+" "+email+ "'s teammate");
+				System.out.println("\tMade "+teammate.id+" "+id+ "'s teammate");
 			}
 		} else {
 			teammates.get(teammate.getName()).links++;
 			
 			if (TEST) {
-				System.out.println("\t"+email+" shares "
+				System.out.println("\t"+id+" shares "
 							+teammates.get(teammate.getName()).links+" teams with "
-							+teammate.email);
+							+teammate.id);
 			}
 		}
 	}
@@ -86,13 +86,13 @@ public class Person {
 			return;
 		}
 		
-		if (!teammates.containsKey(teammate.email)) return;
+		if (!teammates.containsKey(teammate.id)) return;
 		
-		Teammate toRemove = teammates.get(teammate.email);
+		Teammate toRemove = teammates.get(teammate.id);
 		toRemove.links--;
 		
 		if (toRemove.links == 0) {
-			teammates.remove(teammate.email);
+			teammates.remove(teammate.id);
 		}
 	}
 	
@@ -129,15 +129,15 @@ public class Person {
 	}
 	
 	public String getName() {
-		return email;
+		return id;
 	}
 	
 	public boolean equals(Object other) {
-		return email.equals(((Person) other).getName());
+		return id.equals(((Person) other).getName());
 	}
 	
 	public String toString() {
-		return email;
+		return id;
 	}
 	
 	/**
@@ -180,8 +180,8 @@ public class Person {
 	 * 		- Whether or not the teammate has been matched with in this cycle.
 	 * 		- The number of shared teams (links) between the person and the teammate
 	 */
-	class Teammate {
-		Person person;
+	public class Teammate {
+		public Person person;
 		private boolean matched;
 		private int links;
 		
@@ -194,7 +194,9 @@ public class Person {
 		public boolean matchedInCycle() {
 			return matched;
 		}
+		
+		public int getLinks() {
+			return links;
+		}
 	}
-
-
 }

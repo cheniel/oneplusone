@@ -8,13 +8,19 @@ public class TestDriver {
   public static void main(String[] args) {
     int failed = 0;
 
-    Result result = JUnitCore.runClasses(OrganizationTest.class);
-    for (Failure failure : result.getFailures()) {
-      System.out.println(failure.toString());
-      failed++;
+    Class<?>[] testClasses = {
+    		OrganizationTest.class,
+    		TeamTest.class,
+    		PersonTest.class
+    };
+    
+    for (Class<?> testClass : testClasses) {
+      Result result = JUnitCore.runClasses(testClass);
+      for (Failure failure : result.getFailures()) {
+        System.out.println(failure.toString());
+        failed++;
+      }
     }
-    
-    
     
 		System.out.println(new String(new char[80]).replace("\0", "-"));
     if (failed == 0) {

@@ -67,6 +67,7 @@ public class Team {
 				
 			} else {
 				System.out.println(member.getName() + " is already in " + name);
+				return false;
 			}
 
 			return true;
