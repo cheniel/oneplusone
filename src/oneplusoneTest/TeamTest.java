@@ -20,8 +20,12 @@ public class TeamTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		
+		// silences print statements. 
+		// thanks: http://stackoverflow.com/a/18804033/3739861
 		original = System.out;
 		System.setOut(new NullPrintStream());
+		
 		tester = new Team("test");	
 	}
 	

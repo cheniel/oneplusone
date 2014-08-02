@@ -36,6 +36,8 @@ public class Person {
 	 * Increase links with a teammate if already teammate, create new teammate 
 	 * if not already teammates.
 	 * 
+	 * Only connects one way.
+	 * 
 	 * @param teammate to add
 	 */
 	public void addTeammate(Person teammate) {

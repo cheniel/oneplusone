@@ -11,7 +11,9 @@ public class TestDriver {
     Class<?>[] testClasses = {
     		OrganizationTest.class,
     		TeamTest.class,
-    		PersonTest.class
+    		PersonTest.class,
+    		PairingAssignmentTest.class,
+    		WeightedCSPTest.class
     };
     
     for (Class<?> testClass : testClasses) {

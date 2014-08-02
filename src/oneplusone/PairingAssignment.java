@@ -30,7 +30,7 @@ public class PairingAssignment {
 	/**
 	 * Constructor for PairingAssignment
 	 * Instantiates pairings HashMap.
-	 * @param sortedMembers
+	 * @param sortedMembers, in order used by WeightedCSP
 	 */
 	public PairingAssignment(ArrayList<Person> sortedMembers) {
 		pairings = new HashMap<Person, HashSet<Person>>();
@@ -132,6 +132,21 @@ public class PairingAssignment {
 				p.resetCycle();
 			}
 		}
+	}
+	
+	/**
+	 * Used in unit testing.
+	 * @return copy of the pairings established.
+	 */
+	public HashMap<Person, HashSet<Person>> getCopyOfPairings() {
+		HashMap<Person, HashSet<Person>> newPairings = 
+				new HashMap<Person, HashSet<Person>>();
+		
+		for (Person key : pairings.keySet()) {
+			newPairings.put(key, new HashSet<Person>(pairings.get(key)));
+		}
+		
+		return newPairings;
 	}
 	
 	/**
