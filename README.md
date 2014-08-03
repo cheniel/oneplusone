@@ -161,7 +161,7 @@ Here are the cost categories:
 <li> The person has already paired with these teammates. Cost of 0.
 <li> Teammates who have not been paired up with yet. Cost of 1.
 <li> Teammates who are already paired up with someone else. Cost of 2.
-<li> Teammates who have been paired up with previous in this cycle (see next section on cycles). Cost of 3.
+<li> Teammates who have been paired up with previously in this cycle (see next section on cycles). Cost of 3.
 <li> The person paired up with these teammates last time. Cost of 4.
 <li> The person paired up with these teammates last time, and they are already matched up with someone else for this cycle. Cost of 5.
 </ol>
