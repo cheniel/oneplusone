@@ -227,7 +227,7 @@ The database is created the first time the program is run. It is in a file calle
 Testing was done both by hand and through unit testing.
 
 #### Unit Testing
-Unit testing using JUnit was done on all classes except PairingDriver (see next section). Unit tests are bundled into the oneplusoneTest package, and can be batch run through TestDriver.java. Most significant functions were tested in each object. Many getter/setter functions and functions that were deeply tied to operations in other objects were omitted. For the latter situation, their correct operation is implicit in success in other unit tests in other objects. For example, the unit test in <b>Team</b> for adding teammates implicitly tests the simpler addTeammate function in <b>Person</b>.
+Unit testing using JUnit was done on all classes except PairingDriver (see next section). Unit tests are bundled into the oneplusoneTest package, and can be batch run through TestDriver.java. Most significant functions were tested in each object. Many getter/setter functions and functions that were deeply tied to operations in other objects were omitted. For the latter situation, their correct operation is implicit in success in other unit tests in other objects. For example, the unit test in Team for adding teammates implicitly tests the simpler addTeammate function in Person.
 
 #### Limitations on Unit Testing
 The two main limitations on my unit testing were that it could not adequately test the PairingDriver's interactions with the database and the correctness of assignments produced by WeightedCSP on complex organizations. For these, I had to devise other ways of testing.
