@@ -7,7 +7,9 @@
  * 
  * Unit testing is not a good way of evaluating result of solve.
  * Looking at results, seeing if they "make sense" is the only option
- * 	for more complex cases (such as the Beatles situation) 
+ * for more complex cases (such as the Beatles organization) 
+ * 
+ * Run unit tests from TestDriver.java
  */
 
 package oneplusoneTest;
@@ -44,10 +46,9 @@ public class WeightedCSPTest {
 		
 		// silences print statements. 
 		// thanks: http://stackoverflow.com/a/18804033/3739861
-		/*
 		original = System.out;
 		System.setOut(new NullPrintStream());
-		*/
+		
 		people = new ArrayList<Person>();
 
 		p1 = new Person("p1");
@@ -68,8 +69,8 @@ public class WeightedCSPTest {
 		people.add(p7);
 		people.add(p8);
 		
+		// keeps track of what teams have been matched up with
 		culmulativePairings = new HashMap<Person, HashSet<Person>>();
-		
 		culmulativePairings.put(p1, new HashSet<Person>());
 		culmulativePairings.put(p2, new HashSet<Person>());
 		culmulativePairings.put(p3, new HashSet<Person>());
@@ -84,65 +85,101 @@ public class WeightedCSPTest {
 
 	@After
 	public void tearDown() throws Exception {
-		/*
 		System.setOut(original);
-		*/
-	}
-
-	/**
-	 * Test for organization with one team with 8 members
-	 * 
-	 * solve is called 7 times. Each time, the pairing should
-	 * generate a new pairing for each member.
-	 */
-	@Test
-	public void oneTeamEightMembersTest() {
-		
-		// create team structure
-		Team team = new Team("team");
-		team.addMember(p1);
-		team.addMember(p2);
-		team.addMember(p3);
-		team.addMember(p4);
-		team.addMember(p5);
-		team.addMember(p6);
-		team.addMember(p7);
-		team.addMember(p8);
-		
-		for (int i = 0; i < 7; i++) {
-			HashMap<Person, HashSet<Person>> solution = 
-					tester.solve().getCopyOfPairings();
-			
-			for (Person key : solution.keySet()) {
-				
-				HashSet<Person> matches = solution.get(key);
-				
-				// there should only be one match
-				assertTrue(matches.size() == 1
-						|| matches.size() == 2);
-				
-				for (Person match : matches) {
-					
-					// match cannot have occured in the past
-					System.out.println("holla " + match);
-					assertFalse(culmulativePairings.get(key).contains(match));
-					System.out.println("wow");
-					culmulativePairings.get(key).add(match);
-					System.out.println("super wow");
-				}
-			}
-		}		
 	}
 	
 	/**
 	 * Test for organization with two teams of four members each
 	 * 
-	 * solve is called 3 teams. Each time, the pairing should generate a 
-	 * new pairing for each member.
+	 * solve is called 3 teams. Each time, the pairing should generate a pairing
+	 * with members that that member has not been paired with yet.
 	 */
 	@Test
 	public void twoTeamsEightMembersTest() {
 		
+		// create team structure
+		Team team1 = new Team("team1");
+		team1.addMember(p1);
+		team1.addMember(p2);
+		team1.addMember(p3);
+		team1.addMember(p4);
+
+		Team team2 = new Team("team2");
+		team2.addMember(p5);
+		team2.addMember(p6);
+		team2.addMember(p7);
+		team2.addMember(p8);
+		
+		for (int i = 0; i < 3; i++) {
+			PairingAssignment solution = tester.solve();
+			HashMap<Person, HashSet<Person>> pairingMap = 
+					solution.getCopyOfPairings();
+						
+			for (Person key : pairingMap.keySet()) {
+				
+				HashSet<Person> matches = pairingMap.get(key);
+				
+				// there should only be one pair
+				assertEquals(1, matches.size());
+				
+				for (Person match : matches) {
+					
+					// match cannot have occured in the past
+					assertFalse(culmulativePairings.get(key).contains(match));
+					
+					culmulativePairings.get(key).add(match);
+				}
+			}
+		}		
+	}	
+	
+	/**
+	 * Test for 8 member organization with three teams of four members. Four of
+	 * the members are members of two teams.
+	 * 
+	 * solve is called 3 teams. Each time, the pairing should generate a pairing
+	 * for to members who that member has not been paired with before.
+	 */
+	@Test
+	public void threeTeamsEightMembersTest() {
+		
+		// create team structure
+		Team team1 = new Team("team1");
+		team1.addMember(p1);
+		team1.addMember(p2);
+		team1.addMember(p3);
+		team1.addMember(p4);
+
+		Team team2 = new Team("team2");
+		team2.addMember(p5);
+		team2.addMember(p6);
+		team2.addMember(p7);
+		team2.addMember(p8);
+		
+		Team team3 = new Team("team3");
+		team3.addMember(p3);
+		team3.addMember(p4);
+		team3.addMember(p5);
+		team3.addMember(p6);
+		
+		for (int i = 0; i < 3; i++) {
+			PairingAssignment solution = tester.solve();
+			HashMap<Person, HashSet<Person>> pairingMap = 
+					solution.getCopyOfPairings();
+						
+			for (Person key : pairingMap.keySet()) {
+				
+				HashSet<Person> matches = pairingMap.get(key);
+								
+				for (Person match : matches) {
+					
+					// match cannot have occurred in the past
+					assertFalse(culmulativePairings.get(key).contains(match));
+					
+					culmulativePairings.get(key).add(match);
+				}
+			}
+		}		
 	}	
 }
 

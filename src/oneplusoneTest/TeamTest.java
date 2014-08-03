@@ -1,14 +1,21 @@
+/**
+ * JUnit test for the Team class in oneplusone.
+ * 
+ * Run unit tests from TestDriver.java
+ */
+
 package oneplusoneTest;
 
 import static org.junit.Assert.*;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Set;
 import oneplusone.Person;
+import oneplusone.Person.Teammate;
 import oneplusone.Team;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class TeamTest {
 	private static PrintStream original;
@@ -89,6 +96,33 @@ public class TeamTest {
 	
 	@Test
 	public void addingPersonToTeamAddsTeammates() {
+		Person p1 = new Person("p1");
+		Person p2 = new Person("p2");
+		Person p3 = new Person("p3");
 		
+		tester.addMember(p1);
+		tester.addMember(p2);
+		tester.addMember(p3);
+		
+		ArrayList<Teammate> teammates = p1.getTeammates();
+		
+		assertEquals(teammates.size(), 2);
+		
+		boolean p2found = false;
+		boolean p3found = false;
+		
+		for (Teammate tm : teammates) {
+			boolean correctAndUnique = false;
+			
+			if (!p2found && tm.person == p2) {
+				correctAndUnique = true;
+			}
+			
+			if (!p3found && tm.person == p3) {
+				correctAndUnique = true;
+			}
+			
+			assertTrue(correctAndUnique);
+		}
 	}
 }

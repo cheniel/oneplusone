@@ -1,6 +1,9 @@
 /**
+ * JUnit test for Organization class in oneplusone
  * 
+ * Run unit tests from TestDriver.java
  */
+
 package oneplusoneTest;
 
 import static org.junit.Assert.*;

@@ -1,3 +1,9 @@
+/**
+ * JUnit test for the Person class in oneplusone
+ * 
+ * Run unit tests from TestDriver.java
+ */
+
 package oneplusoneTest;
 
 import static org.junit.Assert.*;

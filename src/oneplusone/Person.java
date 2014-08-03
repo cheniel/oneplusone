@@ -143,14 +143,35 @@ public class Person {
 	}
 	
 	/**
+	 * Used to detect if a Person's cycle is full. If it is, resetCycle() should 
+	 * be called afterwards.
 	 * 
+	 * The cycle in oneplusone is used to maintain this rule:
+	 * Teammates should be paired with equal frequency: if A and B are paired 
+	 * together this week, A shouldn't be paired with B again until A has paired 
+	 * with every other person on the team
+	 * 
+	 * The cycle is defined by the number of unique matchups that occur before the
+	 * cycle is reset. So, first first time each teammate is paired with a person 
+	 * in a cycle the teammate count increases.
+	 * 
+	 * When the cycle count reaches the number of teammates associated with a
+	 * person, that person has completed their cycle of teammates. Resetting the
+	 * cycle frees up the person to be matched up to any teammate.
+	 * 
+	 * @return whether or not the cycle is full
 	 */
 	public boolean cycleFull() {
-		return cycleCount / 2 >= teammates.size();
+		return cycleCount >= teammates.size();
 	}
 	
 	/**
+	 * Resets the cycle. Should be called when a cycle is over.
 	 * 
+	 * Changes matched value of every teammate back to false, so their cost goes
+	 * down, as they would no longer be repeated.
+	 * 
+	 * @see Person.cycleFull()
 	 */
 	public void resetCycle() {
 		cycleCount = 0;
@@ -159,20 +180,35 @@ public class Person {
 		}
 	}
 	
+	/**
+	 * @param person
+	 * @return whether the person was matched with the parameter person last week.
+	 */
 	public boolean previouslyMatchedWith(Person person) {
 		return previousMatch.contains(person);
 	}
 	
+	/**
+	 * @return a copy of the teammates of this person.
+	 */
 	public ArrayList<Teammate> getTeammates() {
 		return new ArrayList<Teammate>(teammates.values());
 	}
 
+	/**
+	 * Sets previous matchups when a pairing has been set for a given week. 
+	 * Increases the cycle count and matched values appropriately.
+	 * @param matchups of people
+	 */
 	public void setPreviousMatchups(HashSet<Person> matchups) {
 		previousMatch = matchups;
 		
 		for (Person tm : matchups) {
+			if (!teammates.get(tm.getName()).matched) {
+				cycleCount++;
+			}
+			
 			teammates.get(tm.getName()).matched = true;
-			cycleCount++;
 		}
 	}
 	

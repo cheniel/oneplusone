@@ -1,5 +1,7 @@
 /**
- * Thanks so stack overflow:
+ * Class used to silence System.out
+ * 
+ * Thanks to stack overflow:
  * http://stackoverflow.com/a/18804033/3739861
  */
 package oneplusoneTest;

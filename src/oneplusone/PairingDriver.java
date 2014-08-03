@@ -455,7 +455,8 @@ public class PairingDriver {
 		System.out.println("Opening database (filename: " + DB4OFILENAME + ")...");
 
 		// configuration makes it so only organization needs to be pulled and 
-		// stored from db.
+		// stored from db. When organization is loaded, entire organization
+		// is loaded into memory.
 		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
 		config.common().objectClass(Organization.class).cascadeOnUpdate(true);
 		config.common().objectClass(Team.class).cascadeOnUpdate(true);
@@ -563,7 +564,8 @@ public class PairingDriver {
 				
 				// invalid command
 				default:	
-					System.out.println("Command \""+command+"\" not recognized. (\"?\" for help)");
+					System.out.println("Command \""+command+
+							"\" not recognized. (\"?\" for help)");
 					break;
 				}
 			}
