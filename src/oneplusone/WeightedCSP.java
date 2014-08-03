@@ -22,7 +22,7 @@ public class WeightedCSP {
 	PairingAssignment assignment; 
 	ArrayList<Teammate> bestPartner; 
 	ArrayList<Person> sortedMembers; // sorted from lowest to highest # teammates
-	
+	int recursiveCalls;
 	/**
 	 * Constructor for WeightedCSP
 	 * Sorts list of members by lowest to highest number of teammates.
@@ -48,13 +48,16 @@ public class WeightedCSP {
 		bestPartner = new ArrayList<Teammate>();
 		for (int i = 0; i < sortedMembers.size(); i++) { bestPartner.add(null); }
 		
+		recursiveCalls = 0;
+		
 		// call recursive backtracking method which uses assignment to parse 
 		// through options, storing best partnerships in bestPartner list.
 		int cost = wBacktracking(0, Integer.MAX_VALUE, 0);
 		
 		if (cost == -1) { System.err.println("There was an error w/ solving CSP.");}
 		if (TEST) System.out.println("Cost of: " + cost);
-
+		if (TEST) System.out.println("Recursive calls: " + recursiveCalls);
+		
 		// after backtracking, assignment actually has no assignments in it, as all
 		// assignments are reversed in backtracking.
 
@@ -84,6 +87,7 @@ public class WeightedCSP {
 	 * @return cost of assignment
 	 */
 	private int wBacktracking(int indexOfMember, int bestSoFar, int costSoFar) {
+		recursiveCalls++;
 		if (assignment == null) { return -1; }
 		
 		// tabs used for prints in testing. corresponds to depth of recursion.
