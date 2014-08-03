@@ -137,6 +137,14 @@ public class WeightedCSP {
 					assignment.unassignPairing(current, tm);
 				}
 			}
+			
+			// if there is no bestPartner set, that means the member does not actually
+			// have any teammates and wBacktracking was never called from this depth.
+			// Call wBacktracking to get bestPartners for the reset of the members.
+			if (bestPartner.get(indexOfMember) == null) {
+				wBacktracking(indexOfMember+1, bestSoFar, costSoFar);
+			}
+			
 			// corresponds to cost of partnering w/ bestPartner at index of member
 			return bestSoFar;
 		}
