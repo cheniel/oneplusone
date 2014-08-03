@@ -9,14 +9,22 @@ Command-line program which generates 1+1 pairings within an organization that is
   <li> <a href="#installation">Installation</a>
   <li> <a href="#generating-pairs">Generating Pairs</a>
   <li> <a href="#managing-the-database">Managing the database</a>
+  	<ul>
+  	<li> <a href="#importing-from-file">Importing from file</a>
+  	</ul>
   </ul>
-<li> <a href="#methodology">Methodology</a>
+<li> <a href="#method-and-implementation">Method and Implementation</a>
   <ul>
   <li> <a href="#pair-generation">Pair Generation</a>
-  <li> <a href="#technologies">Technologies</a>
-  <li> <a href="#files">Files</a>
-  <li> <a href="#algorithm">Algorithm</a>
+  	<ul>
+  	<li> <a href="#algorithm">Algorithm</a>
+  	<li> <a href="#matching-priorities">Matching priorities</a>
+  	<li> <a href="#the-cycle">The cycle</a>
+  	</ul>
+  <li> <a href="#class-structure"> Class Structure </a>
+  <li> <a href="#database"> Database </a>
   <li> <a href="#testing">Testing</a>
+  <li> <a href="#technologies">Technologies</a>
   </ul>
 </ul>
 
@@ -94,7 +102,7 @@ If you need to traverse directories to file, the path is ignored when producing 
 
 is FILENAME.
 
-## Methodology
+## Method and Implementation
 This section outlines the methodology used to generate pairs and specifics on the implementation.
 
 ### Pair Generation
@@ -137,7 +145,7 @@ For all indices in bestPartner
 	for all partners in bestPartner[i]
 		assign partner to person at index
 ```
-Now, assignment is the optimal assignment, and is returned by the called of wBacktracking.
+Now, assignment is the optimal assignment, and is returned by the caller of wBacktracking.
 
 
 #### Matching priorities
@@ -206,7 +214,7 @@ Here is an overview of the class structure
 	</ul>
 </ul>
 
-#### Database
+### Database
 The database is a simple db4o database which uploads and loads the top-level Organization objects. For simplicity, the db4o database has cascading on update and load enabled all the way down the object graph. Because of this, if this program were to be used on a VERY large scale there would be memory limitations as the entire object graph beginning at the Organization object is loaded into memory and saved into the database.
 
 The database is created the first time the program is run. It is in a file called "organizations.oneplusoneDB".
