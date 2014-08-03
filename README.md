@@ -92,10 +92,56 @@ If you need to traverse directories to file, the path is ignored when producing 
 is FILENAME.
 
 ## Methodology
+This section outlines the methodology used to generate pairs and specifics on the implementation.
 
 ### Pair Generation
+oneplusone matchings are determined by viewing the problem as a weighted constraint satisfaction problem. A recursive backtracking function is used to determine the optimal matchings given the conditions and organization structure. Steps are taken to prune off paths which have already been deemed to be sub-optimal, and the best path based on a cost algorithm is the one generated from the backtracking.
+
+#### Basic algorithm
+Here is psuedocode. View the real thing <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/WeightedCSP.java">HERE.</a>
+
+> int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {       
+>> if assignment is complete          
+>>> return costSoFar      
+>> else       
+>>> current = getCurrentPersonToAssign(indexOfMember)     
+>>> teammates = getTeammatesSortedByCost(current)       
+>>> for costs that make sense given costSoFar and bestCostFoundSoFar        
+>>>> for teammates that cost that much to pair with         
+>>>> assign teammate to current         
+>>>> bestCostOfPickingThatTeammate = wBacktracking(indexOfMember + 1, bestCostFoundSoFar, costSoFar + costOfPairing)          
+>>>> if (bestCostOfPickingThatTeammate < bestCostFoundSoFar)          
+>>>>> store that teammate as the best match for current         
+>>>>> update bestCostFoundSoFar         
+>>>> unassign teammate to current          
+>>> return bestCostFoundSoFar         
+
+A result's cost is the summation of all of the costs of pairings based on the cost structure in the next section. The result with the lowest cost is generated.
+
+#### Matching priorities
+The backtracking algorithm implements a cost structure which determines which path is best. Teammates are given the highest cost that they fall under, unless it is 0, and potential teammates are evaluated from lowest to highest cost (lower cost is preferred). During each pairing, each person must select at least one teammate.
+
+Here are the cost categories:
+<ol>
+<li> The person has already paired with these teammates. Cost of 0.
+<li> Teammates who have not been paired up with yet. Cost of 1.
+<li> Teammates who are already paired up with someone else. Cost of 2.
+<li> Teammates who have been paired up with previous in this cycle (see next section on cycles). Cost of 3.
+<li> The person paired up with these teammates last time. Cost of 4.
+<li> The person paired up with these teammates last time, and they are already matched up with someone else for this cycle. Cost of 5.
+</ol>
+This is implemented in getSortedTeammates() of <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/PairingAssignment.java">PairingAssignment.java</a>
+
+#### The cycle
+
 
 ### Technologies
+<ul>
+<li> Java 1.7
+<li> Eclipse Luna
+<li> JUnit for unit testing
+<li> db4o for the database
+</ul>
 
 ### Files
 
