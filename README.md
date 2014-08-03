@@ -4,19 +4,19 @@ oneplusone
 Command-line program which generates 1+1 pairings within an organization that is split into teams.
 
 <ul>
-<li> How to use
+<li> <a href="https://github.com/cheniel/oneplusone#how-to-use">How to use</a>
   <ul>
-  <li> Installation
-  <li> Generating Pairs
-  <li> Managing the database
+  <li> <a href="https://github.com/cheniel/oneplusone#installation">Installation</a>
+  <li> <a href="https://github.com/cheniel/oneplusone#generating-pairs">Generating Pairs</a>
+  <li> <a href="https://github.com/cheniel/oneplusone#managing-the-database">Managing the database</a>
   </ul>
-<li> Methodology
+<li> <a href="https://github.com/cheniel/oneplusone#methodology">Methodology</a>
   <ul>
-  <li> Pair Generation
-  <li> Technologies
-  <li> Files
-  <li> Algorithm
-  <li> Testing
+  <li> <a href="https://github.com/cheniel/oneplusone#pair-generation">Pair Generation</a>
+  <li> <a href="https://github.com/cheniel/oneplusone#technologies">Technologies</a>
+  <li> <a href="https://github.com/cheniel/oneplusone#files">Files</a>
+  <li> <a href="https://github.com/cheniel/oneplusone#algorithm">Algorithm</a>
+  <li> <a href="https://github.com/cheniel/oneplusone#testing">Testing</a>
   </ul>
 </ul>
 
