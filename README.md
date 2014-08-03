@@ -194,11 +194,15 @@ Here is an overview of the class structure
 				<li> <b>Person</b> reference
 			</ul>
 		</ul>
-	<li> Creates <b>WeightedCSP</b> to get <b>PairingAssignment</b>
+	<li> Creates <b>WeightedCSP</b> using <b>Person</b> list to get <b>PairingAssignment</b>
 	</ul>
 <li> <b>WeightedCSP</b>
 	<ul>
+	<li> Receives <b>Person</b> from <b>Organization</b>
 	<li> Produces <b>PairingAssignment</b>
+		<ul>
+			<li> Contains <b>Person</b> => <b>Person</b>s
+		</ul>
 	</ul>
 </ul>
 
@@ -208,10 +212,15 @@ The database is a simple db4o database which uploads and loads the top-level Org
 The database is created the first time the program is run. It is in a file called "organizations.oneplusoneDB".
 
 ### Testing
+Testing was done both by hand and through unit testing.
 
 #### Unit Testing
+Unit testing using JUnit was done on all classes except PairingDriver (see next section). Unit tests are bundled into the oneplusoneTest package, and can be batch run through TestDriver.java. Most significant functions were tested in each object. Many getter/setter functions and functions that were deeply tied to operations in other objects were omitted. For the latter situation, their correct operation is implicit in success in other unit tests in other objects. For example, the unit test in <b>Team</b> for adding teammates implicitly tests the simpler addTeammate function in <b>Person</b>.
 
-#### Limitation on Unit Testing
+#### Limitations on Unit Testing
+The two main limitations on my unit testing were that it could not adequately test the PairingDriver's interactions with the database and the correctness of assignments produced by WeightedCSP on complex organizations. For these, I had to devise other ways of testing.
+
+For PairingDriver,
 
 ### Technologies
 <ul>
