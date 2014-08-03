@@ -42,26 +42,28 @@ The program will then prompt you for an organization name. Type in the name of t
 
 ### Managing the database
 Here is an overview of all of the instructions that you can run from the oneplusone command line (view anytime using "?"):
->	---------------------------------------------------     
->	EXECUTE       
->		run	|	run pairings for this week.     
->	VIEW      
->		vo	|	view organization tree      
->		lo	|	list organizations          
->		vm	|	view members of organization      
->	ADD     
->		amt	|	add member-team     
->		norg	|	add new organization      
->		lorg	|	load organization from file     
->	DELETE      
->		rmt	|	remove member from team     
->		rm	|	remove member from all teams        
->		rt	|	remove team (keep members)      
->		dorg	|	delete organization       
->	OTHER       
->		?	|	display commands        
->		q	|	quit        
->	---------------------------------------------------       
+```
+	---------------------------------------------------     
+	EXECUTE       
+		run	|	run pairings for this week.     
+	VIEW      
+		vo	|	view organization tree      
+		lo	|	list organizations          
+		vm	|	view members of organization      
+	ADD     
+		amt	|	add member-team     
+		norg	|	add new organization      
+		lorg	|	load organization from file     
+	DELETE      
+		rmt	|	remove member from team     
+		rm	|	remove member from all teams        
+		rt	|	remove team (keep members)      
+		dorg	|	delete organization       
+	OTHER       
+		?	|	display commands        
+		q	|	quit        
+	---------------------------------------------------       
+```
 
 Most of these commands are straightforward and should allow you to do anything you need to manage an organization's teams and membership. Operations that make changes automatically save to the database.
 
@@ -69,15 +71,16 @@ Most of these commands are straightforward and should allow you to do anything y
 oneplusone allows for a simple way to quickly load a database using a CSV-like file. The command for this is "lorg". Example files can be found in the <a href="https://github.com/cheniel/oneplusone/tree/master/orgs">"orgs"</a> folder of this repo. 
 
 It is easy to create your own version of this file to quickly load a desired organization. Here is the format (this one is <a href="https://github.com/cheniel/oneplusone/blob/master/orgs/3-8">3-8</a>):
-> p1;t1   
-> p2;t1   
-> p3;t1,t3    
-> p4;t1,t3    
-> p5;t2,t3    
-> p6;t2,t3    
-> p7;t2     
-> p8;t2   
-
+```
+p1;t1   
+p2;t1   
+p3;t1,t3    
+p4;t1,t3    
+p5;t2,t3    
+p6;t2,t3    
+p7;t2     
+p8;t2   
+```
 Each line corresponds to a different member of the organization. The text before the semi-colon is the member's name, and the text after the semi-colon lists the teams that member is in, separated by commas. The organization name is given by the filename.
 
 To load this organization into the database, you first enter the command
@@ -99,23 +102,23 @@ oneplusone matchings are determined by viewing the problem as a weighted constra
 
 #### Basic algorithm
 Here is psuedocode. View the real thing <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/WeightedCSP.java">HERE.</a>
-
-> int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {       
->> if assignment is complete          
->>> return costSoFar      
->> else       
->>> current = getCurrentPersonToAssign(indexOfMember)     
->>> teammates = getTeammatesSortedByCost(current)       
->>> for costs that make sense given costSoFar and bestCostFoundSoFar        
->>>> for teammates that cost that much to pair with         
->>>> assign teammate to current         
->>>> bestCostOfPickingThatTeammate = wBacktracking(indexOfMember + 1, bestCostFoundSoFar, costSoFar + costOfPairing)          
->>>> if (bestCostOfPickingThatTeammate < bestCostFoundSoFar)          
->>>>> store that teammate as the best match for current         
->>>>> update bestCostFoundSoFar         
->>>> unassign teammate to current          
->>> return bestCostFoundSoFar         
-
+```
+int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {       
+  if assignment is complete          
+    return costSoFar      
+  else       
+    current = getCurrentPersonToAssign(indexOfMember)     
+    teammates = getTeammatesSortedByCost(current)       
+    for costs that make sense given costSoFar and bestCostFoundSoFar        
+      for teammates that cost that much to pair with         
+        assign teammate to current         
+        bestCostOfPickingThatTeammate = wBacktracking(indexOfMember + 1, bestCostFoundSoFar, costSoFar + costOfPairing)          
+        if (bestCostOfPickingThatTeammate < bestCostFoundSoFar)          
+          store that teammate as the best match for current         
+          update bestCostFoundSoFar         
+        unassign teammate to current          
+  return bestCostFoundSoFar         
+```
 A result's cost is the summation of all of the costs of pairings based on the cost structure in the next section. The result with the lowest cost is generated.
 
 #### Matching priorities
