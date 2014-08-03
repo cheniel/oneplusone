@@ -3,6 +3,23 @@ oneplusone
 
 Command-line program which generates 1+1 pairings within an organization that is split into teams.
 
+<ul>
+<li> How to use
+  <ul>
+  <li> Installation
+  <li> Generating Pairs
+  <li> Managing the database
+  </ul>
+<li> Methodology
+  <ul>
+  <li> Pair Generation
+  <li> Technologies
+  <li> Files
+  <li> Algorithm
+  <li> Testing
+  </ul>
+</ul>
+
 ## How to Use
 
 ### Installation
