@@ -4,7 +4,7 @@ oneplusone
 Command-line program which generates 1+1 pairings within an organization that is split into teams.
 
 <ul>
-<li> <a href="https://github.com/cheniel/oneplusone#how-to-use">How to use</a>
+<li> <a href="#how-to-use">How to use</a>
   <ul>
   <li> <a href="https://github.com/cheniel/oneplusone#installation">Installation</a>
   <li> <a href="https://github.com/cheniel/oneplusone#generating-pairs">Generating Pairs</a>
