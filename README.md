@@ -100,7 +100,9 @@ This section outlines the methodology used to generate pairs and specifics on th
 ### Pair Generation
 oneplusone matchings are determined by viewing the problem as a weighted constraint satisfaction problem. A recursive backtracking function is used to determine the optimal matchings given the conditions and organization structure. Steps are taken to prune off paths which have already been deemed to be sub-optimal, and the best path based on a cost algorithm is the one generated from the backtracking.
 
-#### Basic algorithm
+With this algorithm, we can guarantee that pairings produced will make sure that each person has at least one matching per week, and the assignment produced is the optimal solution based on the costs outlined in <a href="#matching-priorities">matching priorities.</a>
+
+#### Algorithm
 Here is psuedocode. View the real thing <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/WeightedCSP.java">HERE.</a>
 ```
 int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {
@@ -119,7 +121,23 @@ int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {
         unassign teammate to current 
   return bestCostFoundSoFar
 ```
+
 A result's cost is the summation of all of the costs of pairings based on the cost structure in the next section. The result with the lowest cost is generated.
+
+To run this properly, two data structures must be created, and the top wBacktracking call must be made. This looks something like this:
+```
+assignment = new
+bestPartner[] (indexOfPerson => set of partners) = new
+wBacktracking(0, Integer.MAX_VALUE, 0)
+```
+Once this code is run, assignment will actually be empty, as wBacktracking removes all assignments that it makes. However, during wBacktracking's run it also kept track of the best partners for each person which creates the optimal assignment. To get this optimal assignment, we do this:
+```
+For all indices in bestPartner
+	for all partners in bestPartner[i]
+		assign partner to person at index
+```
+Now, assignment is the optimal assignment, and is returned by the called of wBacktracking.
+
 
 #### Matching priorities
 The backtracking algorithm implements a cost structure which determines which path is best. Teammates are given the highest cost that they fall under, unless it is 0, and potential teammates are evaluated from lowest to highest cost (lower cost is preferred). During each pairing, each person must select at least one teammate.
@@ -136,7 +154,20 @@ Here are the cost categories:
 This is implemented in getSortedTeammates() of <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/PairingAssignment.java">PairingAssignment.java</a>
 
 #### The cycle
+The cycle is a recordkeeping concept used to satisfy the constraint:
+> Teammates should be paired with equal frequency: if A and B are paired together this week, A shouldn't be paired with B again until A has paired with every other person on the team.
 
+This is implemented using two variables: the cycleCount in the Person class and the matched boolean in the Teammate class.
+
+Here are the rules for the changes in these variables that allow this to happen:
+<ol>
+<li> The cycleCount for an individual person is incremented every time a teammate whose matched is false is paired with the person.
+<li> Everytime a teammate is paired with a person, that teammates matched becomes true (after cycleCount is increased, if necessary).
+<li> When the cycleCount is the same as the number of teammates that the person has, the cycleCount resets back to zero and all teammates matched values become false
+<li> A teammate with a matched value of true is given a larger cost to pair with.
+</ol>
+
+Using these rules, a teammate who has been paired with already before other teammates have paired with the person is given a higher cost than the teammates who have not been paired with this person as much. The implementation of cost can be seen in <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/Person.java">Person.java</a>
 
 ### Technologies
 <ul>
