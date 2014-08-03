@@ -121,6 +121,7 @@ int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {
         unassign teammate to current 
   return bestCostFoundSoFar
 ```
+Note that this assumes there are teammates for each member, as that is the only way wBacktracking is called and bestPartners are found for the rest of the members. In the implementation, a check is performed at the end for this edge case and wBacktracking is called to find partners for the rest of the members.
 
 A result's cost is the summation of all of the costs of pairings based on the cost structure in the next section. The result with the lowest cost is generated.
 
@@ -169,6 +170,49 @@ Here are the rules for the changes in these variables that allow this to happen:
 
 Using these rules, a teammate who has been paired with already before other teammates have paired with the person is given a higher cost than the teammates who have not been paired with this person as much. The implementation of cost can be seen in <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/Person.java">Person.java</a>
 
+### Class Structure
+Here is an overview of the class structure
+<ul>
+<li> <b>PairingDriver</b>
+	<ul>
+		<li> static, with main. Asks for user input
+		<li> Loads <b>Organization</b> from database.
+		<li> Gets <b>PairingAssignment</b> from <b>Organization</b>.
+	</ul>
+<li> <b>Organization</b>
+	<ul>
+	<li> <b>Team</b>s
+		<ul>
+		<li> Contains subset of <b>Organization</b>'s <b>Person</b>s
+		</ul>
+	<li> <b>Person</b>s
+		<ul>
+		<li> Contains subset of <b>Organization</b>'s <b>Team</b>s
+		<li> <b>Teammate</b> inner class
+			<ul>
+				<li> state variables
+				<li> <b>Person</b> reference
+			</ul>
+		</ul>
+	<li> Creates <b>WeightedCSP</b> to get <b>PairingAssignment</b>
+	</ul>
+<li> <b>WeightedCSP</b>
+	<ul>
+	<li> Produces <b>PairingAssignment</b>
+	</ul>
+</ul>
+
+#### Database
+The database is a simple db4o database which uploads and loads the top-level Organization objects. For simplicity, the db4o database has cascading on update and load enabled all the way down the object graph. Because of this, if this program were to be used on a VERY large scale there would be memory limitations as the entire object graph beginning at the Organization object is loaded into memory and saved into the database.
+
+The database is created the first time the program is run. It is in a file called "organizations.oneplusoneDB".
+
+### Testing
+
+#### Unit Testing
+
+#### Limitation on Unit Testing
+
 ### Technologies
 <ul>
 <li> Java 1.7
@@ -177,8 +221,4 @@ Using these rules, a teammate who has been paired with already before other team
 <li> db4o for the database
 </ul>
 
-### Files
 
-### Algorithm
-
-### Testing
