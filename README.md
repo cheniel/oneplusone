@@ -30,6 +30,7 @@ Command-line program which generates 1+1 pairings within an organization that is
   	</ul>
   <li> <a href="#technologies">Technologies</a>
   </ul>
+  <li> <a href="#notes-on-development">Notes on development</a>
 </ul>
 
 ## How to Use
@@ -249,4 +250,15 @@ For testing on more complex organizations, such as <a href="https://github.com/c
 <li> ObjectManager Enterprise for viewing database file
 </ul>
 
+## Notes on Development
+This project was fun. I felt that it was a good mix of applying my previous knowledge and learning new things.
 
+In terms of what I already knew, I had dealt with constraint satisfaction problems in the past in my <a href="https://github.com/cheniel/artificial-intelligence-class">Artificial Intelligence</a> class, although they were not weighted constraint satisfaction problems. Using that same implementation of backtracking would not have worked for this project as most non-trivial organizations would be unsolvable, and we want results that are not perfect if there are no perfect solutions. For this project, I had to implement a weighted constraint satisfaction problem where the goal was to find the best possible assignment given situations that increase the cost of the assignment. This meant that I had to find some way to measure the value of an assignment, and prioritize certain assignments over others. 
+
+My AI class also helped me think of optimizations to the backtracking problem. Some optimizations I applied included sorting the member list in terms of fewest to most teammates (similar to a minimum remaining values heuristic) and pruning off paths that no longer made sense to search given the best cost found so far.
+
+Although I had experience in databases and unit testing before, I had never worked with db4o and JUnit. Both were simple to use. JUnit was very straightforward and made unit testing significantly easier than what I had experienced with testing C programs without a framework. db4o provided a bit of a headache since I didn't know about update depth and transparent activation, but besides that it was incredibly easy to use.
+
+All in all, I think I did a good enough job planning out my algorithm ahead of time that I did not encounter too many major issues in implementing a solution. The main issues were figuring out the algorithm itself and a couple technology specific things, such as with db4o.
+
+Thanks IFTTT!
