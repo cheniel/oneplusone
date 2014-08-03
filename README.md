@@ -165,7 +165,7 @@ Here are the cost categories:
 <li> The person paired up with these teammates last time. Cost of 4.
 <li> The person paired up with these teammates last time, and they are already matched up with someone else for this cycle. Cost of 5.
 </ol>
-This is implemented in getSortedTeammates() of <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/PairingAssignment.java">PairingAssignment.java</a>
+This is implemented in getSortedTeammates() of <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/PairingAssignment.java">PairingAssignment.java</a>. The cost of an entire assignment is given by the summation of all the individual costs of the pairings.
 
 #### The cycle
 The cycle is a recordkeeping concept used to satisfy the constraint:
