@@ -6,17 +6,17 @@ Command-line program which generates 1+1 pairings within an organization that is
 <ul>
 <li> <a href="#how-to-use">How to use</a>
   <ul>
-  <li> <a href="https://github.com/cheniel/oneplusone#installation">Installation</a>
-  <li> <a href="https://github.com/cheniel/oneplusone#generating-pairs">Generating Pairs</a>
-  <li> <a href="https://github.com/cheniel/oneplusone#managing-the-database">Managing the database</a>
+  <li> <a href="#installation">Installation</a>
+  <li> <a href="#generating-pairs">Generating Pairs</a>
+  <li> <a href="#managing-the-database">Managing the database</a>
   </ul>
-<li> <a href="https://github.com/cheniel/oneplusone#methodology">Methodology</a>
+<li> <a href="#methodology">Methodology</a>
   <ul>
-  <li> <a href="https://github.com/cheniel/oneplusone#pair-generation">Pair Generation</a>
-  <li> <a href="https://github.com/cheniel/oneplusone#technologies">Technologies</a>
-  <li> <a href="https://github.com/cheniel/oneplusone#files">Files</a>
-  <li> <a href="https://github.com/cheniel/oneplusone#algorithm">Algorithm</a>
-  <li> <a href="https://github.com/cheniel/oneplusone#testing">Testing</a>
+  <li> <a href="#pair-generation">Pair Generation</a>
+  <li> <a href="#technologies">Technologies</a>
+  <li> <a href="#files">Files</a>
+  <li> <a href="#algorithm">Algorithm</a>
+  <li> <a href="#testing">Testing</a>
   </ul>
 </ul>
 
