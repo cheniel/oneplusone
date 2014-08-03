@@ -103,21 +103,21 @@ oneplusone matchings are determined by viewing the problem as a weighted constra
 #### Basic algorithm
 Here is psuedocode. View the real thing <a href="https://github.com/cheniel/oneplusone/blob/master/src/oneplusone/WeightedCSP.java">HERE.</a>
 ```
-int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {       
-  if assignment is complete          
-    return costSoFar      
-  else       
-    current = getCurrentPersonToAssign(indexOfMember)     
-    teammates = getTeammatesSortedByCost(current)       
-    for costs that make sense given costSoFar and bestCostFoundSoFar        
-      for teammates that cost that much to pair with         
-        assign teammate to current         
-        bestCostOfPickingThatTeammate = wBacktracking(indexOfMember + 1, bestCostFoundSoFar, costSoFar + costOfPairing)          
-        if (bestCostOfPickingThatTeammate < bestCostFoundSoFar)          
-          store that teammate as the best match for current         
-          update bestCostFoundSoFar         
-        unassign teammate to current          
-  return bestCostFoundSoFar         
+int wBacktracking(indexOfMember, bestCostFoundSoFar, costSoFar)   {
+  if assignment is complete 
+    return costSoFar
+  else
+    current = getCurrentPersonToAssign(indexOfMember)
+    teammates = getTeammatesSortedByCost(current) 
+    for costs that make sense given costSoFar and bestCostFoundSoFar
+      for teammates that cost that much to pair with
+        assign teammate to current
+        bestCostOfPickingThatTeammate = wBacktracking(indexOfMember + 1, bestCostFoundSoFar, costSoFar + costOfPairing)
+        if (bestCostOfPickingThatTeammate < bestCostFoundSoFar) 
+          store that teammate as the best match for current 
+          update bestCostFoundSoFar 
+        unassign teammate to current 
+  return bestCostFoundSoFar
 ```
 A result's cost is the summation of all of the costs of pairings based on the cost structure in the next section. The result with the lowest cost is generated.
 
