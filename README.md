@@ -220,7 +220,13 @@ Unit testing using JUnit was done on all classes except PairingDriver (see next 
 #### Limitations on Unit Testing
 The two main limitations on my unit testing were that it could not adequately test the PairingDriver's interactions with the database and the correctness of assignments produced by WeightedCSP on complex organizations. For these, I had to devise other ways of testing.
 
-For PairingDriver,
+For PairingDriver, testing was done through performing each operation, saving the organization, and viewing the changes in the database in ObjectManager Enterprise. This could have been unit tested by reopening the database during the test and checking the changes, however, because the functions mostly just tie the command-line queries to other object's function calls, it's not worth the effort given my time frame.
+
+For WeightedCSP, the assignments produced on complex organizations are difficult to test since there is a degree of randomness in assignment (as teammates with the same cost are shuffled in priority, and there can be multiple assignments with the same cost), and "optimal" assignments are not immediately obvious and producible (or else I wouldn't be making this program).
+
+I was able to devise two unit tests that test for basic functionality on simple organization structures. These were on an Organization with 8 members and two teams (four members on each team) and an Organization with 8 members and three teams (four members on each team, four members have two teams). These unit tests simply test a single cycle (three teammates = three assignments produces) and check that each member is paired up with someone they have not yet been paired up with yet. The former also tests that each member is only paired with one other.
+
+For testing on more complex organizations, such as <a href="https://github.com/cheniel/oneplusone/blob/master/orgs/Beatles">Beatles</a>, I ran run several times and saw if the results made logical sense. For example, I should expect to see Roy Orbison alternating between being paired up with Tom Petty and George Harrison. If there was anything "unoptimal" between runs, such as pairs being made consecutively, one person being assigned to multiple pairs, or pairings duplicating within a cycle, I would check to see that the compromise made sense given previous and other assignments.
 
 ### Technologies
 <ul>
@@ -228,6 +234,7 @@ For PairingDriver,
 <li> Eclipse Luna
 <li> JUnit for unit testing
 <li> db4o for the database
+<li> ObjectManager Enterprise for viewing database file
 </ul>
 
 
